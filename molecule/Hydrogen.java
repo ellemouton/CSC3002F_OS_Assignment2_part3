@@ -6,19 +6,26 @@ public class Hydrogen extends Thread {
 	private int id;
 	private Methane sharedMethane;
 	
-	
 	public Hydrogen(Methane methane_obj) {
 		Hydrogen.carbonCounter+=1;
 		id=carbonCounter;
 		this.sharedMethane = methane_obj;
-		
 	}
 	
 	public void run() {
 	    try {
 	    	 // you will need to fix below
-	    	System.out.println("---Group ready for bonding---");			 
-	    	sharedMethane.bond("H"+ this.id);
+
+	    	while(sharedMethane.getHydrogen()>=4);
+
+	    	sharedMethane.addHydrogen();
+	    		
+		    sharedMethane.barrier.b_wait();
+
+		    sharedMethane.bond("H"+ this.id);  //bond
+
+	    	//System.out.println("---Group ready for bonding---");			 
+	    	//sharedMethane.bond("H"+ this.id);
 	    }
 	   catch (InterruptedException ex) { /* not handling this  */}
 	    //System.out.println(" ");

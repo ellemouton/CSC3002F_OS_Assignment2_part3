@@ -15,11 +15,17 @@ public class Carbon extends Thread {
 	public void run() {
 	    try {	 
 	    	 // you will need to fix below
-	    	System.out.println("---Group ready for bonding---");	
-	    	sharedMethane.bond("C"+ this.id);  //bond
-	    	 
-	    	 
-	    	   	 
+
+	    	while(sharedMethane.getCarbon()!=0);
+
+	    	sharedMethane.addCarbon();
+
+		    sharedMethane.barrier.b_wait();
+		    	
+		    sharedMethane.bond("C"+ this.id);  //bond
+
+	    	//System.out.println("---Group ready for bonding---");	
+	    	//sharedMethane.bond("C"+ this.id);  //bond
 	    }
 	    catch (InterruptedException ex) { /* not handling this  */}
 	   // System.out.println(" ");
