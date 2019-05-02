@@ -16,16 +16,33 @@ public class Carbon extends Thread {
 	    try {	 
 	    	 // you will need to fix below
 
-	    	while(sharedMethane.getCarbon()!=0);
+	    	sharedMethane.carbonQ.acquire();//-----------------------------------c
+	    	System.out.println("---Group ready for bonding---");
+
+	    	sharedMethane.hydrogensQ.release(4);
+	    		
+	    	sharedMethane.barrier.b_wait();//BARRIER
+
+	    	sharedMethane.mutex.acquire();//---------m
+
+	    	sharedMethane.bond("C"+ this.id);  //bond
+	    	sharedMethane.removeCarbon(1);
+
+	    	sharedMethane.mutex.release();//----------m
+
+	   
+	    	sharedMethane.barrier.b_wait();//BARRIER
+
+
+	    	sharedMethane.mutex.acquire();//---------m
 
 	    	sharedMethane.addCarbon();
 
-		    sharedMethane.barrier.b_wait();
-		    	
-		    sharedMethane.bond("C"+ this.id);  //bond
+	    	sharedMethane.mutex.release();//----------m
+	    	
 
-	    	//System.out.println("---Group ready for bonding---");	
-	    	//sharedMethane.bond("C"+ this.id);  //bond
+	    	sharedMethane.barrier.b_wait();//BARRIER
+
 	    }
 	    catch (InterruptedException ex) { /* not handling this  */}
 	   // System.out.println(" ");
