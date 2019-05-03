@@ -13,8 +13,12 @@ To run the code:
 	
 	From the same folder as this README file and Makefile, type:
 
-			java molecule.RunSimulation <no_dishes> <rack_size> <washerSlackness> <dryerSlackness>
+			java molecule.RunSimulation <no_hydrogens> <no_carbons>
 
 	For example:
 
-			java dishWashS.CleaningDishes 6 3 1 3
+			java molecule.RunSimulation 4 1
+
+			java molecule.RunSimulation 8 2
+
+			java molecule.RunSimulation 12 3

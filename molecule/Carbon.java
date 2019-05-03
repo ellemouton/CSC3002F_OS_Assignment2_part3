@@ -14,28 +14,49 @@ public class Carbon extends Thread {
 	
 	public void run() {
 	    try {	 
-	    	 // you will need to fix below
 
+	    	/* -------------------------------------------------
+				Wait for a the carbonQ semaphore to be released.
+				A max of 1 will be available at a time
+			   -------------------------------------------------
+	    	*/
 	    	sharedMethane.carbonQ.acquire();//-----------------------------------c
 	    	System.out.println("---Group ready for bonding---");
 
+	    	/* -------------------------------------------------
+				Release 4 hydrogens for every carbon
+			   -------------------------------------------------
+	    	*/
 	    	sharedMethane.hydrogensQ.release(4);
-	    		
-	    	sharedMethane.barrier.b_wait();//BARRIER
 
+	    	/* -------------------------------------------------
+				Wait at the barrier for 4  hydrogens
+			   -------------------------------------------------
+	    	*/
+	    	sharedMethane.barrier.b_wait();//----------------BARRIER------------
+
+	    	/* -------------------------------------------------
+				bond and then remove 1 from the Carbon counter
+			   -------------------------------------------------
+	    	*/
 	    	sharedMethane.mutex.acquire();//---------m
 	    	sharedMethane.bond("C"+ this.id);  //bond
 	    	sharedMethane.removeCarbon(1);
 	    	sharedMethane.mutex.release();//----------m
 
-	   
-	    	sharedMethane.barrier.b_wait();//BARRIER
-	    	
+	    	/* -------------------------------------------------
+				Wait at barrier for 4 hydrogens to bond
+			   -------------------------------------------------
+	    	*/
+	    	sharedMethane.barrier.b_wait();//----------------BARRIER-------------
 
+	    	/* -------------------------------------------------
+				add 1 to carbon counter and if the count is 0, 
+				then release the carbonQ mutex for the next carbon
+			   -------------------------------------------------
+	    	*/
 	    	sharedMethane.mutex.acquire();//---------m
-
 	    	sharedMethane.addCarbon();
-	   
 	    	if(sharedMethane.getCarbon()==0){
 	    		sharedMethane.addCarbon();
 	    		sharedMethane.carbonQ.release();
