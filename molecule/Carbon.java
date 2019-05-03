@@ -24,25 +24,26 @@ public class Carbon extends Thread {
 	    	sharedMethane.barrier.b_wait();//BARRIER
 
 	    	sharedMethane.mutex.acquire();//---------m
-
 	    	sharedMethane.bond("C"+ this.id);  //bond
 	    	sharedMethane.removeCarbon(1);
-
 	    	sharedMethane.mutex.release();//----------m
 
 	   
 	    	sharedMethane.barrier.b_wait();//BARRIER
-
+	    	
 
 	    	sharedMethane.mutex.acquire();//---------m
 
 	    	sharedMethane.addCarbon();
-
-	    	sharedMethane.mutex.release();//----------m
+	   
+	    	if(sharedMethane.getCarbon()==0){
+	    		sharedMethane.addCarbon();
+	    		sharedMethane.carbonQ.release();
+	    	}
+	    	sharedMethane.mutex.release();//---------m
 	    	
 
-	    	sharedMethane.barrier.b_wait();//BARRIER
-
+	    	
 	    }
 	    catch (InterruptedException ex) { /* not handling this  */}
 	   // System.out.println(" ");
